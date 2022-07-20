@@ -30,9 +30,9 @@ import { Token } from '@itsy/token'
 
 Used to provide the DOM to be processed. When `component` is used, it instead will provide output via a slot-prop `code`.
 
-#### state: _Array_
+#### state: _any_
 
-This array will be `watch`ed and update the token when changes occur
+This prop will be `watch`ed and update the token when changes occur. Can be f.ex an array of refs, or a single reactive.
 
 #### lang: _String_
 

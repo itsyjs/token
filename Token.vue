@@ -7,7 +7,7 @@ import { useSlots, ref, inject, watch, nextTick, computed } from 'vue'
 import { generateSourceCode } from './generate-source.js'
 
 const props = defineProps({
-  state: Array,
+  state: null,
   component: {
     type: null,
     default: isAbsent
@@ -33,7 +33,7 @@ const updateText = async () => {
   resultText.value = transformCode(code)
 }
 
-watch(() => props.state, updateText, { immediate: true })
+watch(() => props.state, updateText, { deep: true, immediate: true })
 if (!usingSlots.value) watch(() => props.component, updateText)
 </script>
 

@@ -12,7 +12,7 @@
     "test": "vitest run",
     "cp": "mkdir -p ./example/public/shiki && cp -r ./node_modules/shiki/{dist,languages,samples,themes} ./example/public/shiki",
     "preversion": "pnpm test && pnpm build",
-    "version": "pnpm publish --access public",
+    "version": "npm publish --access public",
     "postversion": "git push --follow-tags"
   },
   "keywords": [
