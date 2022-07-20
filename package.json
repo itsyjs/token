@@ -1,6 +1,6 @@
 {
   "name": "@itsy/token",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "easy token generation for Vue 3",
   "type": "module",
   "main": "./dist/token.js",
@@ -15,7 +15,14 @@
     "version": "pnpm publish --access public",
     "postversion": "git push --follow-tags"
   },
-  "keywords": ["design system", "token", "vue"],
+  "keywords": [
+    "design system",
+    "token",
+    "vue"
+  ],
+  "files": [
+    "dist/"
+  ],
   "author": "Dave Honneffer",
   "license": "MIT",
   "devDependencies": {
