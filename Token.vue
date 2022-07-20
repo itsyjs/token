@@ -1,0 +1,43 @@
+<script>
+const isAbsent = Symbol()
+</script>
+
+<script setup>
+import { useSlots, ref, inject, watch, nextTick, computed } from 'vue'
+import { generateSourceCode } from './generate-source.js'
+
+const props = defineProps({
+  state: Array,
+  component: {
+    type: null,
+    default: isAbsent
+  },
+  useShiki: {
+    type: Boolean,
+    default: true
+  },
+  lang: String
+})
+const usingSlots = computed(() => props.component === isAbsent)
+
+const highlighter = inject('highlighter', null)
+const transformCode = (code) => (highlighter && props.useShiki) ? highlighter.codeToHtml(code, { lang: props.lang || 'vue-html' }) : code
+
+const slots = useSlots()
+const resultText = ref('')
+const updateText = async () => {
+  if (props.component) await nextTick()
+  const vnode = props.component?.__vnode || slots.default?.()
+  const lines =  await generateSourceCode(vnode)
+  const code = lines.join('\n')
+  resultText.value = transformCode(code)
+}
+
+watch(() => props.state, updateText, { immediate: true })
+if (!usingSlots.value) watch(() => props.component, updateText)
+</script>
+
+<template>
+  <slot :code="resultText" />
+  <div v-if="usingSlots" v-html="resultText" v-bind="$attrs" />
+</template>

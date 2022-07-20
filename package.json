@@ -1,0 +1,30 @@
+{
+  "name": "@itsy/token",
+  "version": "1.0.0",
+  "description": "easy token generation for Vue 3",
+  "type": "module",
+  "main": "./dist/token.js",
+  "exports": "./dist/token.js",
+  "scripts": {
+    "dev": "vite example --config ./vite.config.js",
+    "build": "vite build",
+    "watch": "vitest watch",
+    "test": "vitest run",
+    "cp": "mkdir -p ./example/public/shiki && cp -r ./node_modules/shiki/{dist,languages,samples,themes} ./example/public/shiki",
+    "preversion": "pnpm test && pnpm build",
+    "version": "pnpm publish --access public",
+    "postversion": "git push --follow-tags"
+  },
+  "keywords": ["design system", "token", "vue"],
+  "author": "Dave Honneffer",
+  "license": "MIT",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
+    "@vue/test-utils": "^2.0.2",
+    "happy-dom": "^6.0.4",
+    "shiki": "^0.10.1",
+    "vite": "^3.0.2",
+    "vitest": "^0.18.1",
+    "vue": "^3.2.37"
+  }
+}
