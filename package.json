@@ -1,6 +1,6 @@
 {
   "name": "@itsy/token",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "easy token generation for Vue 3",
   "type": "module",
   "main": "./dist/token.js",
