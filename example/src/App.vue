@@ -4,12 +4,15 @@ import Token from '../../Token.vue'
 import { ref } from 'vue'
 
 const f = ref(null)
+const model = ref(true)
 </script>
 
 <template>
   <div ref="f">
-    <token :component="f" #default="{ code }" :use-shiki="false">
-      <pre v-text="code" />
+    <token :component="f" :use-shiki="false">
+      <template #default="{ code }">
+        <pre v-text="code" />
+      </template>
     </token>
     <foo>
       <h1>Manual mode example</h1>
@@ -17,7 +20,7 @@ const f = ref(null)
     <h2>Bar</h2>
     <hr />
     <token>
-      <foo><h1>Fully automatic</h1></foo>
+      <foo v-model="model"><h1>Fully automatic</h1></foo>
     </token>
   </div>
 </template>

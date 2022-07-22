@@ -1,8 +1,10 @@
 import { serializeAndCleanJs, cleanupExpression } from '../util/index.js'
+import { useGenerateDirective } from './directives.js'
 
 const isBooleanProp = (vnode, prop) => vnode?.type?.props?.[prop]?.type?.name === Boolean.name ||  vnode?.type?.props?.[prop]?.name === Boolean.name
 
-const useAddAttr = ({ attrs, skipProps, multilineAttrs, vnode }) => (prop, value) => {
+const useAddAttr = (state) => (prop, value) => {
+  const { attrs, skipProps, multilineAttrs, vnode } = state
   if (isBooleanProp(vnode, prop)) { // there's little value in showing <foo :prop=""> for boolean props, early return with special behavior
     if ((typeof value === 'boolean' && value) || value === '') return attrs.push([prop]) // either <foo prop> or <foo :prop="true">
     else return // <foo :prop="false">
@@ -14,7 +16,7 @@ const useAddAttr = ({ attrs, skipProps, multilineAttrs, vnode }) => (prop, value
 
     // v-model on component
     const vmodelListener = `onUpdate:${prop}`
-    if (directive === ':' && vnode.dynamicProps?.includes(vmodelListener)) {
+    if (directive === ':' && (vnode.dynamicProps?.includes(vmodelListener) || vnode.props[vmodelListener])) {
       // Listener
       skipProps.push(vmodelListener)
       const listener = vnode.props[vmodelListener]
@@ -29,7 +31,7 @@ const useAddAttr = ({ attrs, skipProps, multilineAttrs, vnode }) => (prop, value
       skipProps.push(modifiersKey)
 
       // Directive
-      const generateDirective = useGenerateDirective(attrs)
+      const generateDirective = useGenerateDirective(state)
       generateDirective('model', { arg: prop === 'modelValue' ? null : prop, modifiers, value, }, valueCode)
       return
     }

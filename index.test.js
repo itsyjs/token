@@ -96,4 +96,23 @@ describe('printVNode', () => {
     const resultStr = (await printVNode(root.value.__vnode)).lines
     assert.include(resultStr.join(''), '<my-component />')
   })
+  it('handles v-model', async () => {
+    const root = ref(null)
+    const model = ref('')
+    const template = `<div ref="root"><my-component v-model="model" /><h1>Hello world</h1></div>`
+    const Comp = {
+      name: 'MyComponent',
+      template: '<article>OMG</article>',
+      props: { modelValue: null },
+      emits: ['update:modelValue']
+    }
+    const Fixture = {
+      template,
+      setup: () => ({ root, model }),
+      components: { MyComponent: Comp }
+    }
+    mount(Fixture)
+    const resultStr = (await printVNode(root.value.__vnode)).lines
+    assert.include(resultStr.join(''), `<my-component v-model="''" />`)
+  })
 })

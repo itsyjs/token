@@ -3,7 +3,7 @@ const isAbsent = Symbol()
 </script>
 
 <script setup>
-import { useSlots, ref, inject, watch, nextTick, computed } from 'vue'
+import { useSlots, ref, inject, watch, computed } from 'vue'
 import { generateSourceCode } from './generate-source.js'
 
 const props = defineProps({
@@ -26,8 +26,8 @@ const transformCode = (code) => (highlighter && props.useShiki) ? highlighter.co
 const slots = useSlots()
 const resultText = ref('')
 const updateText = async () => {
-  if (props.component) await nextTick()
-  const vnode = props.component?.__vnode || slots.default?.()
+  if (!usingSlots.value && !props.component) return // bail if the ref hasn't resolved yet
+  const vnode = usingSlots.value ? slots.default?.() : props.component?.__vnode
   const lines =  await generateSourceCode(vnode)
   const code = lines.join('\n')
   resultText.value = transformCode(code)
@@ -39,5 +39,5 @@ if (!usingSlots.value) watch(() => props.component, updateText)
 
 <template>
   <slot :code="resultText" />
-  <div v-if="usingSlots" v-html="resultText" v-bind="$attrs" />
+  <div v-if="usingSlots" v-html="resultText" v-bind="$attrs" class="itsy-token" />
 </template>

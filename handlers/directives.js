@@ -1,8 +1,9 @@
+import { serializeAndCleanJs } from '../util/index.js'
 import { vModelText, vModelCheckbox, vModelSelect, vModelRadio, vModelDynamic } from 'vue'
 
 const vModelDirectives = [vModelText, vModelCheckbox, vModelSelect, vModelRadio, vModelDynamic]
 
-const useGenerateDirective = ({ attrs, multilineAttrs }) => (dirName, dir, valueCode) => {
+export const useGenerateDirective = ({ attrs, multilineAttrs }) => (dirName, dir, valueCode) => {
   let modifiers = ''
   for (const key in dir.modifiers) if (dir.modifiers[key]) modifiers += `.${key}`
   let arg = ''
