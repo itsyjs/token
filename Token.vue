@@ -21,7 +21,8 @@ const props = defineProps({
 const usingSlots = computed(() => props.component === isAbsent)
 
 const highlighter = inject('highlighter', null)
-const transformCode = (code) => (highlighter && props.useShiki) ? highlighter.codeToHtml(code, { lang: props.lang || 'vue-html' }) : code
+const highlightTheme = inject('highlightTheme', null)
+const transformCode = (code) => (highlighter && props.useShiki) ? highlighter.codeToHtml(code, { lang: props.lang || 'vue-html', theme: highlightTheme }) : code
 
 const slots = useSlots()
 const resultText = ref('')
